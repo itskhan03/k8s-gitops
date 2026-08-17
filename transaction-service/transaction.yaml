@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: transaction
+  name: transaction
+spec:
+  selector:
+    matchLabels:
+      app: transaction
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: transaction
+    spec:
+      serviceAccountName: default
+      imagePullSecrets:
+      - name: acr-secret
+      nodeSelector:
+        app: workerpool
+      containers:
+      - name: transaction
+        image: azwavetecprd.azurecr.io/transaction:v1.9.21-MSSQL
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "16Gi"
+            cpu: "4"
+          limits:
+            memory: "16Gi"
+            cpu: "4"
+        env:
+        - name: PODNAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: TZ
+          value: "America/Jamaica"
+        ports:
+        - containerPort: 9060
+        volumeMounts:
+        - name: application-config
+          mountPath: /application.yaml
+          subPath: application.yaml
+        - name: logback-config
+          mountPath: /logback.xml
+          subPath: logback.xml
+
+        - name: transaction-pvc
+          mountPath: /log/
+
+      volumes:
+      - name: application-config
+        configMap:
+          name: transaction-application-config
+      - name: logback-config
+        configMap:
+          name: transaction-logback-config
+      - name: transaction-pvc
+        persistentVolumeClaim:
+          claimName: transaction-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-service
+  labels:
+    run: transaction-service
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+  type: ClusterIP
+  ports:
+  - name: transaction-port
+    port: 9060
+    protocol: TCP
+  - name: http2
+    port: 9061
+    protocol: TCP
+    targetPort: 9061
+  selector:
+    app: transaction
+

@@ -1,0 +1,80 @@
+apiVersion: v1
+data:
+  application.yaml: |+
+    server:
+      port: 9060
+
+    grpc:
+      port: 9061
+
+    metrics:
+      port: 9062
+
+    spring:
+      main:
+        allow-bean-definition-overriding: true
+      http:
+        multipart:
+          max-file-size: 20MB
+          max-request-size: 20MB
+      jpa:
+        show-sql: false
+        database-platform: org.hibernate.dialect.SQLServerDialect
+        properties:
+          hibernate:
+            generate_statistics: true
+            enable_lazy_load_no_trans: true
+            dialect: org.hibernate.dialect.SQLServerDialect
+        hibernate:
+          ddl-auto: update
+          #      ddl-auto: update
+      datasource:
+        url: jdbc:sqlserver://az-wavetec-prd-db-01.database.windows.net:1433;database=az-wavetec-prd-db-01
+        username: wavetec_usr
+        password: KE3bs)SqZw:M.8V,_c#d4[
+        connection-test-query: "SELECT 1"
+        connectionTestQuery: "SELECT 1"
+        validation-query: "SELECT 1"
+        validationQuery: "SELECT 1"
+        test-while-idle: true
+        test-on-borrow: true
+        testOnBorrow: true
+        timeBetweenEvictionRunsMillis: 60000
+
+    jwt:
+      enabled: false
+      api:
+        key: 'grameen-apis'
+        secret: '3fefcc48-b834-4a71-86ad-77163f9b8639'
+
+    timezone:
+      code: UTC
+      offset: '+5'
+
+    log-execution-time: true
+
+    debug: false
+    # -------
+
+    logging.level:
+      root: INFO
+      org.springframework.jdbc.core.JdbcTemplate: INFO
+      org.hibernate.stat.internal.StatisticsImpl: INFO
+      org.hibernate.engine.internal.StatisticalLoggingSessionEventListener: ERROR
+      io.grpc.netty.ProtocolNegotiators: INFO
+
+    git:
+      properties-file: ''
+
+    bootstrap: false
+
+    media:
+      rootdir: '/media'
+
+    scheduler:
+      minutesTransactionEnd: 10000
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: transaction-application-config
