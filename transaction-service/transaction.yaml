@@ -48,8 +48,8 @@ spec:
           mountPath: /logback.xml
           subPath: logback.xml
 
-        - name: transaction-pvc
-          mountPath: /log/
+#        - name: transaction-pvc
+#          mountPath: /log/
 
       volumes:
       - name: application-config
@@ -58,9 +58,9 @@ spec:
       - name: logback-config
         configMap:
           name: transaction-logback-config
-      - name: transaction-pvc
-        persistentVolumeClaim:
-          claimName: transaction-pvc
+ #     - name: transaction-pvc
+ #       persistentVolumeClaim:
+ #         claimName: transaction-pvc
 ---
 apiVersion: v1
 kind: Service
