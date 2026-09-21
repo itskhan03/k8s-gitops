@@ -26,12 +26,12 @@ data:
             enable_lazy_load_no_trans: true
             dialect: org.hibernate.dialect.SQLServerDialect
         hibernate:
-          ddl-auto: update
-          #      ddl-auto: update
+          ddl-auto: none
+     
       datasource:
-        url: jdbc:sqlserver://az-wavetec-prd-db-01.database.windows.net:1433;database=az-wavetec-prd-db-01
-        username: wavetec_usr
-        password: KE3bs)SqZw:M.8V,_c#d4[
+        url: jdbc:sqlserver://188.245.150.157:1433;database=az-wavetec-prd-db-01
+        username: sa
+        password: Azimut@123
         connection-test-query: "SELECT 1"
         connectionTestQuery: "SELECT 1"
         validation-query: "SELECT 1"
