@@ -17,8 +17,6 @@ spec:
       serviceAccountName: default
       imagePullSecrets:
       - name: acr-secret
-      nodeSelector:
-        app: workerpool
       containers:
       - name: transaction
         image: azwavetecprd.azurecr.io/transaction:v1.9.21-MSSQL
