@@ -30,7 +30,7 @@ data:
      
       datasource:
         url: jdbc:sqlserver://188.245.150.157:1433;database=az-wavetec-prd-db-01
-        username: sa
+        username: saaa
         password: Azimut@123
         connection-test-query: "SELECT 1"
         connectionTestQuery: "SELECT 1"
